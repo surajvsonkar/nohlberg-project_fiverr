@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game Score Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f5f5f5;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            /* padding: 20px; */
+        }
+
+        .logo img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+		
+				.timer {
+					margin-top: 20px;
+					font-size: 15vw; /* Adapts font size to viewport width */
+				}
+
+				
+				button {
+					padding: 10px 20px;
+					font-size: 16px;
+					margin: 5px;
+				}
+				
+				.teams {
+					display: flex;
+					justify-content: space-around;
+					margin-top: 20px;
+					flex-wrap: wrap; /* Ensures buttons are responsive */
+				}
+				
+				.team {
+					text-align: center;
+					flex: 1; /* Makes each team section flexible */
+				}
+
+				.points {
+					display: flex;
+					flex-direction: column;
+					gap: 15px;
+					align-items: center;
+				}
+				
+				.points button {
+					font-size: 24px;
+					padding: 5px 15px;
+					margin: 5px;
+				}
+
+				.points span {
+					font-size: 2em;
+				}
+				
+				.mid-container {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					flex-direction: column;
+				}
+				
+				.logo {
+					margin-top: 35px;
+					width: 250px;
+					height: 100px;
+				}
+				
+				.controls {
+            margin-top: 20px;
+        }
+
+		@media (max-width: 991px) {
+			.timer {
+				font-size: 30vh;
+			}
+
+			.points span {
+				font-size: 4em;
+			}
+		}
+		</style>
+</head>
+<body>
+	<div class="container">
+		<div class="timer">
+			<span id="time">60</span>
+        </div>
+        <div class="controls">
+			<button onclick="startTimer()">Start Timer</button>
+            <button onclick="pauseTimer()">Pause/Play</button>
+            <button onclick="resetTimer()">Reset Timer</button>
+        </div>
+        <div class="teams">
+			<div class="team">
+				<h2>Team 1</h2>
+                <div class="points">
+					<button onclick="changePoints('A', 1)">+</button>
+                    <span id="pointsA">0</span>
+                    <button onclick="changePoints('A', -1)">-</button>
+                </div>
+            </div>
+            <div class="mid-container">
+                <button
+                    onclick="confirmResetPoints()"
+                    style="margin-top: 5pc; background-color: red; color: #fff; border: none; border-radius: 5px;"
+                >
+                    Reset Points
+                </button>
+            </div>
+            <div class="team">
+                <h2>Team 2</h2>
+                <div class="points">
+                    <button onclick="changePoints('B', 1)">+</button>
+                    <span id="pointsB">0</span>
+                    <button onclick="changePoints('B', -1)">-</button>
+                </div>
+            </div>
+        </div>
+        <audio id="buzzer" src="./buzzer.wav"></audio>
+        <img src="./logo.png" alt="logo" class="logo" />
+    </div>
+    <script>
+        let timer;
+        let timeLeft = 60;
+
+        function startTimer() {
+            clearInterval(timer);
+            timer = setInterval(countdown, 1000);
+        }
+
+        function pauseTimer() {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            } else {
+                startTimer();
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timeLeft = 60;
+            document.getElementById('time').textContent = timeLeft;
+        }
+
+        function countdown() {
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                document.getElementById('buzzer').play();
+                return;
+            }
+            timeLeft--;
+            document.getElementById('time').textContent = timeLeft;
+        }
+
+        function changePoints(team, change) {
+            let pointsElement = document.getElementById(`points${team}`);
+            let points = parseInt(pointsElement.textContent);
+            points += change;
+            pointsElement.textContent = points;
+        }
+
+        function confirmResetPoints() {
+            if (confirm('Are you sure you want to reset the points?')) {
+                resetPoints();
+            }
+        }
+
+        function resetPoints() {
+            document.getElementById('pointsA').textContent = '0';
+            document.getElementById('pointsB').textContent = '0';
+        }
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'visible') {
+                keepScreenOn();
+            }
+        });
+
+        function keepScreenOn() {
+            if ('wakeLock' in navigator) {
+                navigator.wakeLock.request('screen').catch((err) => {
+                    console.error(`${err.name}, ${err.message}`);
+                });
+            }
+        }
+
+        keepScreenOn();
+    </script>
+</body>
+</html>
