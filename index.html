@@ -149,11 +149,20 @@
 				const audioCtx = new (window.AudioContext ||
 					window.webkitAudioContext)();
 				const oscillator = audioCtx.createOscillator();
+				const gainNode = audioCtx.createGain();
+
 				oscillator.type = 'sine';
-				oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Frequency of the beep
-				oscillator.connect(audioCtx.destination);
+				oscillator.frequency.setValueAtTime(100000, audioCtx.currentTime); // Increase frequency for a higher pitch beep
+
+				gainNode.gain.value = 0.5; // Increase volume
+				oscillator.connect(gainNode);
+				gainNode.connect(audioCtx.destination);
+
 				oscillator.start();
-				setTimeout(() => oscillator.stop(), 100); // Stop the beep after 100ms
+				setTimeout(() => {
+					oscillator.stop();
+					audioCtx.close(); // Close the audio context after the beep to release resources
+				}, 3000); // Stop the beep after 100ms
 			}
 
 			function startTimer() {
