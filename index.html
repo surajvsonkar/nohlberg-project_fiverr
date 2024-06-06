@@ -159,7 +159,7 @@
                 const gainNode = audioCtx.createGain();
 
                 oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(15000, audioCtx.currentTime); // Frequency for a higher pitch beep
+                oscillator.frequency.setValueAtTime(3000, audioCtx.currentTime); // Frequency for a higher pitch beep
 
                 gainNode.gain.value = 1; // Volume
                 oscillator.connect(gainNode);
