@@ -125,12 +125,12 @@
             </div>
             <div class="mid-container">
                 <button onclick="confirmResetPoints()" style="
-							margin-top: 5pc;
-							background-color: red;
-							color: #fff;
-							border: none;
-							border-radius: 5px;
-						">
+                            margin-top: 5pc;
+                            background-color: red;
+                            color: #fff;
+                            border: none;
+                            border-radius: 5px;
+                        ">
                     Reset Points
                 </button>
             </div>
@@ -143,47 +143,38 @@
                 </div>
             </div>
         </div>
-        <!-- <audio id="buzzer" src="./buzzer.wav" preload="auto"></audio> -->
+        <!-- Hidden button for user-initiated event -->
+        <button id="hiddenBeepButton" style="display: none;" onclick="playBeepSound()"></button>
         <img src="./logo.png" alt="logo" class="logo" />
     </div>
     <script>
         let timer;
-        let timeLeft = 60;
+        let timeLeft = 1;
 
         // Function to generate a beep sound
+        function playBeepSound() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(10000, audioCtx.currentTime); // Increase frequency for a higher pitch beep
+
+            gainNode.gain.value = 1; // Increase volume
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            setTimeout(() => {
+                oscillator.stop();
+                audioCtx.close(); // Close the audio context after the beep to release resources
+            }, 3000); // Stop the beep after 300ms
+        }
+
+        // Trigger the beep sound through the hidden button
         function beep() {
-    // Create a hidden button
-    const btn = document.createElement('button');
-    btn.style.display = 'none';
-    document.body.appendChild(btn);
-
-    // Add an event listener to play the beep sound on button click
-    btn.addEventListener('click', function() {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(10000, audioCtx.currentTime); // Increase frequency for a higher pitch beep
-
-        gainNode.gain.value = 0.5; // Increase volume
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        oscillator.start();
-        setTimeout(() => {
-            oscillator.stop();
-            audioCtx.close(); // Close the audio context after the beep to release resources
-        }, 3000); // Stop the beep after 100ms
-
-        // Remove the button from the DOM after use
-        document.body.removeChild(btn);
-    });
-
-    // Programmatically trigger a click event on the hidden button
-    btn.click();
-}
-
+            document.getElementById('hiddenBeepButton').click();
+        }
 
         function startTimer() {
             clearInterval(timer);
