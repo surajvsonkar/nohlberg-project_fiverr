@@ -1,234 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Card Game Score Tracker</title>
-		<style>
-			body {
-				font-family: Arial, sans-serif;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				height: 100vh;
-				margin: 0;
-				background: #f5f5f5;
-				flex-direction: column;
-			}
 
-			.container {
-				text-align: center;
-				width: 100%;
-			}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Game Score Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f5f5f5;
+            flex-direction: column;
+        }
 
-			.logo img {
-				width: 200px;
-				height: auto; /* Maintain aspect ratio */
-				margin-bottom: 20px;
-			}
+        .container {
+            text-align: center;
+            width: 100%;
+        }
 
-			.timer {
-				margin-top: 20px;
-				font-size: 15vw; /* Adapts font size to viewport width */
-			}
+        .logo img {
+            width: 200px;
+            height: auto;
+            /* Maintain aspect ratio */
+            margin-bottom: 20px;
+        }
 
-			button {
-				padding: 30px; /* Increased padding */
-				font-size: 20px; /* Increased font size */
-				margin: 10px; /* Increased margin for spacing */
-			}
+        .timer {
+            margin-top: 20px;
+            font-size: 15vw;
+            /* Adapts font size to viewport width */
+        }
 
-			.teams {
-				display: flex;
-				justify-content: space-around;
-				margin-top: 20px;
-				flex-wrap: wrap; /* Ensures buttons are responsive */
-			}
+        button {
+            padding: 30px;
+            /* Increased padding */
+            font-size: 20px;
+            /* Increased font size */
+            margin: 10px;
+            /* Increased margin for spacing */
+        }
 
-			.team {
-				text-align: center;
-				flex: 1; /* Makes each team section flexible */
-			}
+        .teams {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            /* Ensures buttons are responsive */
+        }
 
-			.points {
-				display: flex;
-				flex-direction: column;
-				gap: 15px;
-				align-items: center;
-			}
+        .team {
+            text-align: center;
+            flex: 1;
+            /* Makes each team section flexible */
+        }
 
-			.points button {
-				font-size: 24px;
-				padding: 25px 35px;
-				margin: 5px;
-			}
+        .points {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
 
-			.points span {
-				font-size: 2em;
-			}
+        .points button {
+            font-size: 24px;
+            padding: 25px 35px;
+            margin: 5px;
+        }
 
-			.mid-container {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				flex-direction: column;
-			}
+        .points span {
+            font-size: 2em;
+        }
 
-			.logo {
-				margin-top: 35px;
-				width: 250px;
-				height: 80px;
-			}
+        .mid-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
-			.controls {
-				margin-top: 20px;
-			}
+        .logo {
+            margin-top: 35px;
+            width: 250px;
+            height: 80px;
+        }
 
-			@media (max-width: 991px) {
-				.timer {
-					font-size: 20vh;
-				}
+        .controls {
+            margin-top: 20px;
+        }
 
-				.points span {
-					font-size: 4em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-			<div class="timer">
-				<span id="time">60</span>
-			</div>
-			<div class="controls">
-				<button onclick="startTimer()">Start Timer</button>
-				<button onclick="pauseTimer()">Pause/Play</button>
-				<button onclick="resetTimer()">Reset Timer</button>
-			</div>
-			<div class="teams">
-				<div class="team">
-					<h2>Team 1</h2>
-					<div class="points">
-						<button onclick="changePoints('A', 1)">+</button>
-						<span id="pointsA">0</span>
-						<button onclick="changePoints('A', -1)">-</button>
-					</div>
-				</div>
-				<div class="mid-container">
-					<button
-						onclick="confirmResetPoints()"
-						style="
+        @media (max-width: 991px) {
+            .timer {
+                font-size: 20vh;
+            }
+
+            .points span {
+                font-size: 4em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="timer">
+            <span id="time">60</span>
+        </div>
+        <div class="controls">
+            <button onclick="startTimer()">Start Timer</button>
+            <button onclick="pauseTimer()">Pause/Play</button>
+            <button onclick="resetTimer()">Resetss Timer</button>
+        </div>
+        <div class="teams">
+            <div class="team">
+                <h2>Team 1</h2>
+                <div class="points">
+                    <button onclick="changePoints('A', 1)">+</button>
+                    <span id="pointsA">0</span>
+                    <button onclick="changePoints('A', -1)">-</button>
+                </div>
+            </div>
+            <div class="mid-container">
+                <button onclick="confirmResetPoints()" style="
 							margin-top: 5pc;
 							background-color: red;
 							color: #fff;
 							border: none;
 							border-radius: 5px;
-						"
-					>
-						Reset Points
-					</button>
-				</div>
-				<div class="team">
-					<h2>Team 2</h2>
-					<div class="points">
-						<button onclick="changePoints('B', 1)">+</button>
-						<span id="pointsB">0</span>
-						<button onclick="changePoints('B', -1)">-</button>
-					</div>
-				</div>
-			</div>
-			<!-- <audio id="buzzer" src="./buzzer.wav" preload="auto"></audio> -->
-			<img src="./logo.png" alt="logo" class="logo" />
-		</div>
-		<script>
-			let timer;
-			let timeLeft = 5;
+						">
+                    Reset Points
+                </button>
+            </div>
+            <div class="team">
+                <h2>Team 2</h2>
+                <div class="points">
+                    <button onclick="changePoints('B', 1)">+</button>
+                    <span id="pointsB">0</span>
+                    <button onclick="changePoints('B', -1)">-</button>
+                </div>
+            </div>
+        </div>
+        <!-- <audio id="buzzer" src="./buzzer.wav" preload="auto"></audio> -->
+        <img src="./logo.png" alt="logo" class="logo" />
+    </div>
+    <script>
+        let timer;
+        let timeLeft = 5;
 
-			// Function to generate a beep sound
-			function beep() {
-				const audioCtx = new (window.AudioContext ||
-					window.webkitAudioContext)();
-				const oscillator = audioCtx.createOscillator();
-				const gainNode = audioCtx.createGain();
+        // Function to generate a beep sound
+        function beep() {
+    // Create a hidden button
+    const btn = document.createElement('button');
+    btn.style.display = 'none';
+    document.body.appendChild(btn);
 
-				oscillator.type = 'sine';
-				oscillator.frequency.setValueAtTime(10000, audioCtx.currentTime); // Increase frequency for a higher pitch beep
+    // Add an event listener to play the beep sound on button click
+    btn.addEventListener('click', function() {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
 
-				gainNode.gain.value = 0.5; // Increase volume
-				oscillator.connect(gainNode);
-				gainNode.connect(audioCtx.destination);
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(10000, audioCtx.currentTime); // Increase frequency for a higher pitch beep
 
-				oscillator.start();
-				setTimeout(() => {
-					oscillator.stop();
-					audioCtx.close(); // Close the audio context after the beep to release resources
-				}, 3000); // Stop the beep after 100ms
-			}
+        gainNode.gain.value = 0.5; // Increase volume
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
 
-			function startTimer() {
-				clearInterval(timer);
-				timer = setInterval(countdown, 1000);
-				keepScreenOn(); // Keep screen on during countdown
-			}
+        oscillator.start();
+        setTimeout(() => {
+            oscillator.stop();
+            audioCtx.close(); // Close the audio context after the beep to release resources
+        }, 3000); // Stop the beep after 100ms
 
-			function pauseTimer() {
-				if (timer) {
-					clearInterval(timer);
-					timer = null;
-				} else {
-					startTimer();
-				}
-			}
+        // Remove the button from the DOM after use
+        document.body.removeChild(btn);
+    });
 
-			function resetTimer() {
-				clearInterval(timer);
-				timeLeft = 60;
-				document.getElementById('time').textContent = timeLeft;
-			}
+    // Programmatically trigger a click event on the hidden button
+    btn.click();
+}
 
-			function countdown() {
-				if (timeLeft <= 0) {
-					clearInterval(timer);
-					beep(); // Generate beep sound
-					return;
-				}
-				timeLeft--;
-				document.getElementById('time').textContent = timeLeft;
-			}
 
-			function changePoints(team, change) {
-				let pointsElement = document.getElementById(`points${team}`);
-				let points = parseInt(pointsElement.textContent);
-				points += change;
-				pointsElement.textContent = points;
-			}
+        function startTimer() {
+            clearInterval(timer);
+            timer = setInterval(countdown, 1000);
+            keepScreenOn(); // Keep screen on during countdown
+        }
 
-			function confirmResetPoints() {
-				if (confirm('Are you sure you want to reset the points?')) {
-					resetPoints();
-				}
-			}
+        function pauseTimer() {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            } else {
+                startTimer();
+            }
+        }
 
-			function resetPoints() {
-				document.getElementById('pointsA').textContent = '0';
-				document.getElementById('pointsB').textContent = '0';
-			}
+        function resetTimer() {
+            clearInterval(timer);
+            timeLeft = 60;
+            document.getElementById('time').textContent = timeLeft;
+        }
 
-			document.addEventListener('visibilitychange', function () {
-				if (document.visibilityState === 'visible') {
-					keepScreenOn();
-				}
-			});
+        function countdown() {
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                beep(); // Generate beep sound
+                return;
+            }
+            timeLeft--;
+            document.getElementById('time').textContent = timeLeft;
+        }
 
-			function keepScreenOn() {
-				if ('wakeLock' in navigator) {
-					navigator.wakeLock.request('screen').catch((err) => {
-						console.error(`${err.name}, ${err.message}`);
-					});
-				}
-			}
+        function changePoints(team, change) {
+            let pointsElement = document.getElementById(`points${team}`);
+            let points = parseInt(pointsElement.textContent);
+            points += change;
+            pointsElement.textContent = points;
+        }
 
-			keepScreenOn();
-		</script>
-	</body>
+        function confirmResetPoints() {
+            if (confirm('Are you sure you want to reset the points?')) {
+                resetPoints();
+            }
+        }
+
+        function resetPoints() {
+            document.getElementById('pointsA').textContent = '0';
+            document.getElementById('pointsB').textContent = '0';
+        }
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'visible') {
+                keepScreenOn();
+            }
+        });
+
+        function keepScreenOn() {
+            if ('wakeLock' in navigator) {
+                navigator.wakeLock.request('screen').catch((err) => {
+                    console.error(`${err.name}, ${err.message}`);
+                });
+            }
+        }
+
+        keepScreenOn();
+    </script>
+</body>
+
 </html>
