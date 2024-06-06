@@ -151,24 +151,38 @@
         let timer;
         let timeLeft = 1;
 
-        // Function to generate a beep sound
+        // Function to generate three beep sounds
         function playBeepSound() {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
+            function createBeep() {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
 
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(5000, audioCtx.currentTime); // Increase frequency for a higher pitch beep
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(12000, audioCtx.currentTime); // Frequency for a higher pitch beep
 
-            gainNode.gain.value = 1; // Increase volume
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
+                gainNode.gain.value = 1; // Volume
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
 
-            oscillator.start();
-            setTimeout(() => {
-                oscillator.stop();
-                audioCtx.close(); // Close the audio context after the beep to release resources
-            }, 3000); // Stop the beep after 300ms
+                oscillator.start();
+                setTimeout(() => {
+                    oscillator.stop();
+                    audioCtx.close();
+                }, 1000); // Duration of each beep
+            }
+
+            let beepCount = 0;
+
+            function beep() {
+                if (beepCount < 3) {
+                    createBeep();
+                    beepCount++;
+                    setTimeout(beep, 500); // Interval between beeps
+                }
+            }
+
+            beep();
         }
 
         // Trigger the beep sound through the hidden button
